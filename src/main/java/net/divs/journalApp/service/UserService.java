@@ -10,10 +10,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
 import net.divs.journalApp.entity.User;
 import net.divs.journalApp.repository.UserRepository;
 
 @Component
+@Slf4j
 public class UserService {
     @Autowired
     private UserRepository userRepository;
@@ -21,9 +23,15 @@ public class UserService {
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public void saveNewUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRoles(Arrays.asList("USER"));
-        userRepository.save(user);
+        try {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setRoles(Arrays.asList("USER"));
+            userRepository.save(user);
+        } catch (Exception e) {
+            log.error("An error occured for {} :",user.getUsername(),e);
+            throw new RuntimeException("An error occured while saving new user: ",e);
+        }
+        
     }
 
     public void saveAdmin(User user) {

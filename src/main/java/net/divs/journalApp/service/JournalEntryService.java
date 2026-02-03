@@ -1,6 +1,7 @@
 package net.divs.journalApp.service;
 
 import org.bson.types.ObjectId;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,13 +23,20 @@ public class JournalEntryService {
     @Autowired
     private UserService userService;
 
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(JournalEntryService.class);
+
     @Transactional
     public void saveEntry(JournalEntry journalEntry, String username) {
-        User user = userService.findByUserName(username);
-        journalEntry.setDate(LocalDateTime.now());
-        JournalEntry saved = journalEntryRepository.save(journalEntry);
-        user.getJournalEntries().add(saved);
-        userService.saveUser(user);
+        try {
+            User user = userService.findByUserName(username);
+            journalEntry.setDate(LocalDateTime.now());
+            JournalEntry saved = journalEntryRepository.save(journalEntry);
+            user.getJournalEntries().add(saved);
+            userService.saveUser(user);
+        } catch (Exception e) {
+            logger.info("Learning logging");
+            throw new RuntimeException("An error occured while saving the entry: ", e);
+        }
     }
 
     public void saveEntry(JournalEntry entry) {
