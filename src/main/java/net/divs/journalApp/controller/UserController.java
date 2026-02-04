@@ -11,11 +11,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import net.divs.journalApp.entity.User;
 import net.divs.journalApp.repository.UserRepository;
+import net.divs.journalApp.service.QuoteService;
 import net.divs.journalApp.service.UserService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -27,6 +31,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private QuoteService quoteService;
+
     UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -35,7 +42,6 @@ public class UserController {
     // public List<User> getAllUsers() {
     //     return userService.getAll();
     // }
-
     
 
     @PutMapping
@@ -59,4 +65,14 @@ public class UserController {
         userRepository.deleteByusername(authentication.getName());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping
+    public ResponseEntity<?> greeting() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+
+        return new ResponseEntity<>("Hi " + username + ", Quote is: " + quoteService.getQuote(), HttpStatus.OK);
+    }
+    
 }
