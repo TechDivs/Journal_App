@@ -9,19 +9,22 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import net.divs.journalApp.api_response.Quote;
+import net.divs.journalApp.cache.AppCache;
 
-@Component
+@Service
 public class QuoteService {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private AppCache appCache;
+
     @Value("${api.ninjas.key}")
     private String apikey;
-    private static final String api="https://api.api-ninjas.com/v2/randomquotes";
     
     public String getQuote() {
         HttpHeaders headers = new HttpHeaders();
@@ -29,7 +32,7 @@ public class QuoteService {
 
         HttpEntity<Void> entity = new HttpEntity<>(headers);
 
-        ResponseEntity<List<Quote>> response=restTemplate.exchange(api,HttpMethod.GET,entity,new ParameterizedTypeReference<List<Quote>>() {});
+        ResponseEntity<List<Quote>> response=restTemplate.exchange(appCache.APP_CACHE.get("quotes_api"),HttpMethod.GET,entity,new ParameterizedTypeReference<List<Quote>>() {});
 
         List<Quote> quotes = response.getBody();
         return quotes.get(0).getQuote(); 

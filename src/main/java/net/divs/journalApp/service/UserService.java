@@ -8,13 +8,13 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import net.divs.journalApp.entity.User;
 import net.divs.journalApp.repository.UserRepository;
 
-@Component
+@Service
 @Slf4j
 public class UserService {
     @Autowired
