@@ -24,7 +24,7 @@ public class UserServiceTest {
         "Divs",
         "TEMP"
     })
-    public void testFindByUserName(String name) {
+    void testFindByUserName(String name) {
         assertNotNull(userRepository.findByusername(name));
     }
 }
