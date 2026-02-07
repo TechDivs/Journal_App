@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import jakarta.annotation.Nonnull;
 import lombok.Getter;
 import lombok.Setter;
+import net.divs.journalApp.enums.Sentiment;
 
 import java.time.LocalDateTime;
 
@@ -20,4 +21,5 @@ public class JournalEntry {
     private String title;
     private String content;
     private LocalDateTime date;
+    private Sentiment sentiment;    
 }
