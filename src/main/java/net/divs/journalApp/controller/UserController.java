@@ -9,6 +9,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import net.divs.journalApp.entity.User;
 import net.divs.journalApp.repository.UserRepository;
 import net.divs.journalApp.service.QuoteService;
@@ -18,12 +19,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 
 @RestController
 @RequestMapping("/user")
+@Tag(name = "User APIs", description = "Greet, Update and Delete User")
 public class UserController {
     @Autowired
     private final UserRepository userRepository;

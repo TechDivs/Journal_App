@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import net.divs.journalApp.entity.User;
 import net.divs.journalApp.service.UserService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/admin")
+@Tag(name = "Admin APIs", description = "Create ADMIN User and Get All Users")
 public class AdminController {
     @Autowired
     private UserService userService;

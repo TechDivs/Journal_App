@@ -2,6 +2,7 @@ package net.divs.journalApp.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import net.divs.journalApp.entity.User;
 import net.divs.journalApp.service.UserDetailsServiceImpl;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RestController
 @RequestMapping("/public")
 @Slf4j
+@Tag(name = "Public APIs", description = "User Signup and Login")
 public class PublicController {
     
     @GetMapping("/health-check")
