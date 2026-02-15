@@ -11,21 +11,21 @@ import net.divs.journalApp.repository.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-    
+
     @Autowired
     private UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByusername(username);
-        if(user != null) {
-            return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getUsername())
-                .password(user.getPassword())
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+
+        return org.springframework.security.core.userdetails.User.builder()
+                .username(user.getEmail())
+                .password(user.getPassword() == null ? "" : user.getPassword())
                 .roles(user.getRoles().toArray(new String[0]))
                 .build();
-        }
-        throw new UsernameNotFoundException("User not found with username: " + username);
     }
+
 }
- 

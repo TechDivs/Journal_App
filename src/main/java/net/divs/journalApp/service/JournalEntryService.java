@@ -26,9 +26,9 @@ public class JournalEntryService {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(JournalEntryService.class);
 
     @Transactional
-    public void saveEntry(JournalEntry journalEntry, String username) {
+    public void saveEntry(JournalEntry journalEntry, String email) {
         try {
-            User user = userService.findByUserName(username);
+            User user = userService.findByEmail(email);
             journalEntry.setDate(LocalDateTime.now());
             JournalEntry saved = journalEntryRepository.save(journalEntry);
             user.getJournalEntries().add(saved);
@@ -51,10 +51,10 @@ public class JournalEntryService {
         return journalEntryRepository.findById(id);
     }
 
-    public boolean deleteById(ObjectId id, String username) {
+    public boolean deleteById(ObjectId id, String email) {
         boolean removed=false;
         try {
-            User user = userService.findByUserName(username);
+            User user = userService.findByEmail(email);
             removed = user.getJournalEntries().removeIf(x -> x.getId().equals(id));
             if(removed) {
                 userService.saveUser(user);
